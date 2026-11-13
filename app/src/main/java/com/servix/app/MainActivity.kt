@@ -3,45 +3,50 @@ package com.servix.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.servix.app.ui.theme.ServixTheme
+import androidx.compose.runtime.*
+import com.servix.app.ui.auth.PagLogin
+import com.servix.app.ui.home.PagPrincipalUsuario
+import com.servix.app.ui.home.PagPrincipalTrabajador
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            ServixTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+            var sesionIniciada by remember { mutableStateOf(false) }
+            var rolActual by remember { mutableStateOf("CLIENTE") }
+            var nombreActual by remember { mutableStateOf("Usuario") }
+
+            if (!sesionIniciada) {
+                PagLogin(
+                    onLoginSuccess = { rolObtenido, nombreObtenido ->
+                        rolActual = rolObtenido
+                        nombreActual = nombreObtenido
+                        sesionIniciada = true
+                    }
+                )
+            } else {
+                if (rolActual == "TRABAJADOR") {
+                    PagPrincipalTrabajador(
+                        nombreTrabajador = nombreActual,
+                        onCambiarRolACliente = {
+                            rolActual = "CLIENTE"
+                        },
+                        onLogout = {
+                            sesionIniciada = false
+                        }
+                    )
+                } else {
+                    PagPrincipalUsuario(
+                        nombreUsuario = nombreActual,
+                        onCambiarRolATrabajador = {
+                            rolActual = "TRABAJADOR"
+                        },
+                        onLogout = {
+                            sesionIniciada = false
+                        }
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ServixTheme {
-        Greeting("Android")
     }
 }

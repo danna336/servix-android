@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "571322106999",
+    "project_id": "servixx-eae5d",
+    "storage_bucket": "servixx-eae5d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571322106999:android:59b819bd04e69bcbfff272",
+        "android_client_info": {
+          "package_name": "com.servix.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDguKeuH_EA9hJcdEeYA7FGjba1fr8rC5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
